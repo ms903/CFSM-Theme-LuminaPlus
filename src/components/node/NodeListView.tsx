@@ -1,3 +1,4 @@
+import { FamilyPathSummary } from "@/components/family-path/FamilyPathSummary";
 import { t } from "@/i18n";
 import { memo, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
@@ -319,6 +320,7 @@ const NodeRow = memo(function NodeRow({ uuid }: { uuid: string }) {
               ))}
             </div>
           )}
+          <FamilyPathSummary id={uuid} density="list" />
         </div>
       </div>
 

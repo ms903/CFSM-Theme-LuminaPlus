@@ -6,15 +6,30 @@
 大 / 小 / 迷你 / 列表四种卡片，首页总览、分组与地区筛选、资产统计，详情页的系统资源与 Ping 图表（带丢包色带）；
 界面支持中文、English、Español。数据全部来自 CF-Server-Monitor 的公开 API。
 
+## ms903 原生 Home 公网扩展
+
+本 Fork 基于 [volcano-1025 的 LuminaPlus](https://github.com/volcano-1025/CFSM-Theme-LuminaPlus)，保留原主题和署名。
+首页在运营商 Ping 下显示独立的 Home 公网 IPv4 / IPv6 延迟、丢包、双向测速；大卡附带近 7 天小趋势。
+点某条链路进入对应地址族详情：默认 7 天历史，可切 24 小时 / 30 天，查看准确值和最近测试记录。
+方向固定为 VPS：**↑ VPS → Home，↓ Home → VPS，单位 Mbps**，不是上方实时网卡流量。
+
+- 失败保留上次成功带宽并标注；历史失败和缺测画断点，不补零。延迟超时独立显示。
+- 登录站长可在卡片 / 详情立即测速；共享排队、实际测速耗时和完成状态。全部测速在首页快捷栏的“更多操作”。
+- 保留原运营商与 Home (Tailscale) 线路、资源与流量数据。兼容大卡 / 小卡 / 迷你 / 列表和手机。
+- 后端需提供 `/api/family-path`、`/api/family-path/history`、`/api/family-path/trigger`；缺少扩展的站点不显示这个区域。
+  支持 `include_sparkline=1` 批量 7 天历史；详情由原有服务器归属映射选正确后端，按服务器 ID 和地址族查询。
+- 页面可见时最新数据每 60 秒刷新，任务活动时 3 秒；后台停止轮询。小趋势按结果变化或 10 分钟缓存刷新。
+  服务端采集周期不变：延迟 1 分钟，自动带宽 6 小时。
+
+源码推 `preview` 由现有 Actions 构建到 `dist-preview`；预览验收后推 `main` 构建到 `dist`。
+`monitor.ms903.org` 使用正式产物的固定 commit 地址，回滚只需恢复旧主题地址和旧组件加载配置，不迁移 D1。
+
 ## 安装
 
-主题跟着你现有的 Workers 后端跑，不用自己构建或另找地方部署，二选一：
-
-- **主题商店**：后台 `/admin#/admin` → 主题商店 → **LuminaPlus** → 安装并切换。
-- **自定义主题 URL**：把下面的地址填进后台的自定义主题 URL。
+本 Fork 跟着现有 Workers 后端跑，使用后台的**自定义主题 URL**（商店中的上游版本不包含 Home 公网扩展）：
 
   ```
-  https://github.com/volcano-1025/CFSM-Theme-LuminaPlus/tree/dist
+  https://github.com/ms903/CFSM-Theme-LuminaPlus/tree/dist
   ```
 
   `dist` 是构建产物分支（源码在 `main`，别填错）。想锁定某一版，把 `dist` 换成那一版产物提交的 40 位 SHA；
@@ -24,7 +39,6 @@
 
 ### 更新
 
-- **主题商店装的**：回主题商店更新一次。
 - **填 `tree/dist` 的**：Workers 对分支地址缓存约一小时，过了缓存自动是新版；等不及就临时换成新版的 SHA。
 - **锁在 SHA 上的**：要手动换成新 SHA，否则一直停在旧版。
 

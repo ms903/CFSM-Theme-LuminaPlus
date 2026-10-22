@@ -1,6 +1,7 @@
+import { FamilyPathPanel } from "@/components/family-path/FamilyPathPanel";
 import { t } from "@/i18n";
 import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useSearchParams, Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import "uplot/dist/uPlot.min.css";
 import { InstanceDetails } from "@/components/instance/InstanceDetails";
@@ -50,6 +51,8 @@ function RangeSelector({
 
 export function Instance() {
   const { uuid } = useParams<{ uuid: string }>();
+  const [search] = useSearchParams();
+  const homePathRequested = search.get("section") === "home-path";
   const { data: me } = useAuth();
   const themeSettings = useThemeSettings();
   const meta = useNodeMeta(uuid ?? "");
@@ -78,6 +81,7 @@ export function Instance() {
 
   const alignCharts = useCallback(() => {
     const frame = window.requestAnimationFrame(() => {
+      if (homePathRequested) return;
       const element = chartControlsRef.current;
       if (!element) return;
       const rect = element.getBoundingClientRect();
@@ -85,7 +89,7 @@ export function Instance() {
       element.scrollIntoView({ behavior: "auto", block: "start" });
     });
     return () => window.cancelAnimationFrame(frame);
-  }, []);
+  }, [homePathRequested]);
 
   useEffect(() => {
     if (!loadRanges.some((range) => range.value === loadHours)) {
@@ -211,6 +215,7 @@ export function Instance() {
           ) : null}
         </div>
       </div>
+      <FamilyPathPanel id={uuid} />
     </div>
   );
 }

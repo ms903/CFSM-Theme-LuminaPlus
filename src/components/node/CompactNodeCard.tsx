@@ -1,3 +1,4 @@
+import { FamilyPathSummary } from "@/components/family-path/FamilyPathSummary";
 import { t } from "@/i18n";
 import { memo, useEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
@@ -783,6 +784,7 @@ export const CompactNodeCard = memo(function CompactNodeCard({
           pingError={pingError}
         />
       )}
+      <FamilyPathSummary id={uuid} density="compact" />
     </article>
   );
 });

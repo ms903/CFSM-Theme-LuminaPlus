@@ -1,3 +1,4 @@
+import { FamilyPathSummary } from "@/components/family-path/FamilyPathSummary";
 import { t } from "@/i18n";
 import { memo, useCallback, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
@@ -174,6 +175,7 @@ export const NodeCard = memo(function NodeCard({
               lossColor={lossColor}
             />
           )}
+          <FamilyPathSummary id={uuid} />
         </div>
 
         <NodeCardFooter

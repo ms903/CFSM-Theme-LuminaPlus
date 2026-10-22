@@ -1,0 +1,99 @@
+/* Native card extension: the surrounding card owns surface, spacing and radius. */
+.family-summary { border-top: 1px solid var(--hairline); padding-top: 12px; min-width: 0; container-type: inline-size; }
+.family-summary-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 7px; }
+.family-summary-heading > :last-child { font-size: 11px; color: var(--text-tertiary); font-weight: 400; }
+.family-summary-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; padding: 4px 0; }
+.family-summary-link { display: flex; flex: 1; align-items: center; gap: 12px; min-width: 0; font-size: 13px; line-height: 1.5; border-radius: 4px; text-decoration: none; }
+a.family-summary-link:hover { color: var(--text-primary); background: var(--hover-bg-a); }
+.family-stack-label { font-size: 11px; font-weight: 650; color: var(--text-secondary); flex: 0 0 29px; }
+.family-latency { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.family-latency small { font-size: 11px; color: var(--text-tertiary); }
+.family-speeds { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 8px; margin-left: auto; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.family-speeds b { font-weight: 600; }
+.family-speeds > small { color: var(--text-tertiary); font-size: 10px; }
+.family-speeds .family-old { flex-basis: 100%; text-align: right; font-size: 10px; }
+.family-up { color: var(--traffic-up); }
+.family-down { color: var(--traffic-down); }
+.family-sparkline { flex: 0 1 80px; width: 80px; min-width: 40px; height: 26px; overflow: visible; }
+.family-test { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; gap: 5px; min-height: 28px; padding: 4px 7px; font-size: 11px; white-space: nowrap; cursor: pointer; }
+.family-test:disabled { cursor: default; color: var(--text-tertiary); }
+.family-test[aria-busy="true"] { color: var(--text-secondary); }
+.family-row-status { font-size: 11px; color: var(--text-tertiary); flex-basis: 100%; overflow-wrap: anywhere; }
+.family-error { color: var(--status-offline); overflow-wrap: anywhere; }
+.family-warning { color: var(--status-warning); }
+.family-summary-mini .family-summary-link { gap: 8px; font-size: 12px; }
+.family-summary-mini .family-latency small, .family-summary-list .family-latency small { display: none; }
+.family-summary-list { padding-top: 5px; margin-top: 4px; width: 100%; }
+.family-summary-list .family-summary-heading { font-size: 10px; margin-bottom: 1px; }
+.family-summary-list .family-summary-heading > :last-child { font-size: 9px; }
+.family-summary-list .family-summary-row { padding: 1px 0; }
+.family-summary-list .family-summary-link { flex-wrap: wrap; column-gap: 6px; font-size: 11px; }
+.family-summary-list .family-stack-label { flex-basis: 24px; font-size: 10px; }
+.family-summary-list .family-speeds { margin-left: auto; gap: 4px; }
+.family-summary-list .family-row-status { font-size: 10px; }
+@container (max-width: 350px) {
+  .family-sparkline { display: none; }
+  .family-summary-link { gap: 8px; }
+}
+@container (max-width: 325px) {
+  .family-summary-link { flex-wrap: wrap; }
+  .family-summary:is(.family-summary-large, .family-summary-compact) .family-speeds { flex-basis: 100%; margin-left: 37px; font-size: 13px; }
+  .family-summary:is(.family-summary-large, .family-summary-compact) .family-latency { margin-left: auto; }
+}
+.family-spin { animation: family-spin 1s linear infinite; }
+@keyframes family-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .family-spin { animation: none; } }
+.family-panel { scroll-margin-top: 32px; }
+.family-panel-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.family-panel-controls .family-test { min-height: 34px; font-size: 12px; padding: 6px 12px; }
+.family-detail-status { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: var(--text-secondary); font-size: 12px; }
+.family-detail-status > span:first-child { display: inline-flex; align-items: center; gap: 6px; }
+.family-address { overflow-wrap: anywhere; color: var(--text-tertiary); }
+.family-metrics { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 18px; padding: 20px 0 12px; }
+.family-metric { display: flex; flex-direction: column; gap: 7px; }
+.family-metric > span { color: var(--text-secondary); font-size: 12px; }
+.family-metric > strong { font-size: 20px; line-height: 1.35; font-weight: 650; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.family-update-times { display: flex; justify-content: space-between; gap: 8px 20px; flex-wrap: wrap; font-size: 11px; color: var(--text-tertiary); padding-bottom: 16px; border-bottom: 1px solid var(--hairline); }
+.family-panel p.family-error { margin: 8px 0 0; font-size: 12px; }
+.family-history { margin-top: 18px; }
+.family-chart-legend { display: flex; gap: 20px; font-size: 12px; flex-wrap: wrap; }
+.family-chart-legend > :first-child { color: var(--text-tertiary); margin-right: auto; }
+.family-chart { position: relative; min-width: 0; margin-top: 8px; }
+.family-chart .u-over { touch-action: pan-y; }
+.family-history-notice { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--text-secondary); min-height: 140px; text-align: center; padding: 18px; font-size: 13px; }
+.family-records { border-top: 1px solid var(--hairline); margin-top: 16px; padding-top: 14px; }
+.family-records > summary { cursor: pointer; color: var(--text-secondary); font-size: 13px; }
+.family-records > summary > span { margin-left: 6px; color: var(--text-tertiary); font-size: 11px; }
+.family-records-scroll { overflow-x: auto; }
+.family-records table { width: 100%; text-align: left; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+.family-records th { color: var(--text-secondary); font-weight: 500; }
+.family-records :is(th, td) { padding: 10px 12px 10px 0; border-bottom: 1px solid var(--hairline); }
+.family-records :is(th, td):not(:last-child) { white-space: nowrap; }
+.family-records td:last-child { min-width: 160px; overflow-wrap: anywhere; }
+.family-more { position: relative; }
+.family-more > summary { list-style: none; cursor: pointer; }
+.family-more > summary::-webkit-details-marker { display: none; }
+.family-more-menu { position: absolute; right: 0; top: calc(100% + 12px); z-index: 30; padding: 8px; min-width: 212px; border: 1px solid var(--hairline); border-radius: 12px; background: var(--surface-a); box-shadow: 0 8px 30px #0002; }
+.family-more-menu > span { display: block; font-size: 12px; padding: 7px; }
+.family-all { display: flex; align-items: center; gap: 8px; padding: 9px; width: 100%; font-size: 13px; cursor: pointer; }
+@media (max-width: 900px) { .family-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 540px) {
+  .family-panel .instance-panel-header { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .family-panel-controls { gap: 8px; }
+  .family-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; }
+  .family-metric > strong { font-size: 18px; }
+  .family-more-menu { right: auto; left: 0; }
+}
+
+.family-summary-row:has(.family-test[aria-busy="true"]) .family-sparkline { display: none; }
+
+/* Keep the more menu outside the toolbar's collapsed clipping, below its top-edge anchor. */
+.floating-controls:not(.is-collapsed):has(.family-more) .floating-controls-actions { overflow: visible; max-width: min(364px, calc(100vw - 4.25rem)); }
+.floating-controls .family-more-menu .family-all { width: 100%; min-width: 0; height: auto; flex-basis: auto; }
+@media (max-width: 540px) {
+  .floating-controls:has(.family-more) .floating-controls-actions,
+  .floating-controls:has(.family-more) .floating-controls-appearance { gap: 4px; }
+  .floating-controls:has(.family-more) .floating-controls-actions > .control-button,
+  .floating-controls:has(.family-more) .floating-controls-actions .floating-controls-appearance .control-button,
+  .floating-controls .family-more > summary { width: 32px; min-width: 32px; height: 32px; flex-basis: 32px; }
+}

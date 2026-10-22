@@ -1,3 +1,4 @@
+import { FamilyPathSummary } from "@/components/family-path/FamilyPathSummary";
 import { t } from "@/i18n";
 import { memo, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
@@ -485,6 +486,7 @@ export const MiniNodeCard = memo(function MiniNodeCard({
         pingLoading={pingLoading}
         pingError={pingError}
       />
+      <FamilyPathSummary id={uuid} density="mini" />
     </article>
   );
 });

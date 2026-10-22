@@ -1,4 +1,5 @@
 import { t } from "@/i18n";
+import { FamilyPathProvider } from "@/components/family-path/FamilyPathProvider";
 import { Outlet, useLocation } from "react-router-dom";
 import { Lock } from "lucide-react";
 import { BackgroundLayer } from "./BackgroundLayer";
@@ -75,7 +76,7 @@ export function AppShell() {
           ) : isPrivateVisitor ? (
             <PrivateSiteGate />
           ) : (
-            <Outlet />
+            <FamilyPathProvider><Outlet /></FamilyPathProvider>
           )}
         </div>
       </main>

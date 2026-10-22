@@ -16,7 +16,7 @@ import { formatVersionLabel } from "@/utils/versionCompare";
 
 const BACKEND_REPO_URL = "https://github.com/huilang-me/CF-Server-Monitor";
 const THEME_REPO_URL = "https://github.com/volcano-1025/CFSM-Theme-LuminaPlus";
-const THEME_CHANGELOG_URL = `${THEME_REPO_URL}/blob/main/CHANGELOG.md`;
+const THEME_CHANGELOG_URL = "https://github.com/ms903/CFSM-Theme-LuminaPlus/blob/main/CHANGELOG.md";
 
 export function SiteFooter() {
   const { backend, theme } = useVersionInfo();

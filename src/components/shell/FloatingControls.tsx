@@ -1,3 +1,4 @@
+import { FamilyPathMenu } from "@/components/family-path/FamilyPathMenu";
 import { t, type MessageKey } from "@/i18n";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { AlertTriangle, ChevronLeft, ChevronRight, Grid3x3, LayoutGrid, List, Monitor, Palette, Rows3, Settings, SlidersHorizontal, Sun, Moon } from "lucide-react";
@@ -84,6 +85,7 @@ export function FloatingControls({
       <div className="floating-controls-inner">
         <div className="floating-controls-row">
           <div className="floating-controls-actions" aria-hidden={collapsed}>
+            <FamilyPathMenu collapsed={collapsed} />
             {showAppearance && (
               <div
                 className="control-group floating-controls-appearance"
