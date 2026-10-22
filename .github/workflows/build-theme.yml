@@ -12,7 +12,7 @@ name: Build theme
 # 更新日志默认取本次源码提交的标题；手动触发时可以在 changelog 里另写一句。
 on:
   push:
-    branches: [main, preview]
+    branches: [main, preview, "preview-*"]
   workflow_dispatch:
     inputs:
       changelog:
@@ -43,7 +43,7 @@ jobs:
       - name: Resolve target branch
         id: target
         run: |
-          if [ "${GITHUB_REF_NAME}" = "preview" ]; then
+          if [[ "${GITHUB_REF_NAME}" == preview* ]]; then
             echo "branch=dist-preview" >> "$GITHUB_OUTPUT"
           else
             echo "branch=dist" >> "$GITHUB_OUTPUT"

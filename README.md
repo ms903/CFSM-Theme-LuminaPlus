@@ -21,7 +21,7 @@
 - 页面可见时最新数据每 60 秒刷新，任务活动时 3 秒；后台停止轮询。小趋势按结果变化或 10 分钟缓存刷新。
   服务端采集周期不变：延迟 1 分钟，自动带宽 6 小时。
 
-源码推 `preview` 由现有 Actions 构建到 `dist-preview`；预览验收后推 `main` 构建到 `dist`。
+源码推 `preview-home-public` 由现有 Actions 构建到 `dist-preview`（保留 Fork 时已有的上游 `preview` 分支）；预览验收后推 `main` 构建到 `dist`。
 `monitor.ms903.org` 使用正式产物的固定 commit 地址，回滚只需恢复旧主题地址和旧组件加载配置，不迁移 D1。
 
 ## 安装
