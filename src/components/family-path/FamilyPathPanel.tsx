@@ -95,7 +95,10 @@ export function FamilyPathPanel({ id }: { id: string }) {
         <thead><tr><th>{t("family.time")}</th><th>{t("family.result")}</th><th>↑ {t("family.up")} · Mbps</th><th>↓ {t("family.down")} · Mbps</th><th>{t("family.quality")}</th><th>{t("family.reason")}</th></tr></thead>
         <tbody>{[...points].reverse().slice(0, 30).map(point => <tr key={point.observed_at}>
           <td>{fullTime(point.observed_at)}</td><td className={point.status === "ok" ? "" : "family-error"}>{t(point.status === "ok" ? "family.complete" : "family.failed")}</td>
-          <td>{point.status === "ok" ? point.vps_to_home_mbps?.toFixed(2) ?? "—" : "—"}</td><td>{point.status === "ok" ? point.home_to_vps_mbps?.toFixed(2) ?? "—" : "—"}</td><td>{point.error || "—"}</td>
+          <td>{point.status === "ok" ? point.vps_to_home_mbps?.toFixed(2) ?? "—" : "—"}</td><td>{point.status === "ok" ? point.home_to_vps_mbps?.toFixed(2) ?? "—" : "—"}</td><td>{point.bandwidth_details
+            ? `${point.bandwidth_details.duration_seconds}s · ${t("family.retransmits")} ${retransmitText(point.bandwidth_details)} · ${icmpLossText(point.bandwidth_details)}`
+            : "—"}</td>
+          <td>{point.error || "—"}</td>
         </tr>)}</tbody>
       </table></div>
       {!points.length && <p className="family-history-notice">{t("family.noHistory")}</p>}
