@@ -44,6 +44,12 @@ export function triggerFamilyTest(base: string, serverId?: string, family?: IpFa
 }
 export const pathKey = (base: string, id: string, family?: IpFamily) => JSON.stringify([base, id, family ?? "all"]);
 export const isPathActive = (path: FamilyPath) => ["queued", "testing"].includes(path.bandwidth_status);
+// The wire fields express physical direction; the UI uses Home's perspective.
+export const HOME_BANDWIDTH_DIRECTIONS = [
+  { field: "vps_to_home_mbps", tone: "down", label: "family.down", arrow: "↓" },
+  { field: "home_to_vps_mbps", tone: "up", label: "family.up", arrow: "↑" },
+] as const;
+
 export function formatMbps(value: number | null | undefined): string {
   if (value == null || !Number.isFinite(value)) return "—";
   if (value < 0.01) return "<0.01";

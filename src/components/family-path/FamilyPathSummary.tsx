@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { LoaderCircle } from "lucide-react";
 import { t, getLocale } from "@/i18n";
 import { useNodeMeta } from "@/hooks/useNode";
-import { formatMbps, IP_FAMILIES, isPathActive, pathChartPoints, pathKey, type FamilyPath, type IpFamily, type PathPoint } from "@/services/familyPath";
+import { formatMbps, HOME_BANDWIDTH_DIRECTIONS, IP_FAMILIES, isPathActive, pathChartPoints, pathKey, type FamilyPath, type IpFamily, type PathPoint } from "@/services/familyPath";
 import { useServerPaths } from "./FamilyPathProvider";
 
 export function relativeTime(timestamp: number, now: number) {
@@ -48,10 +48,10 @@ function Sparkline({ points, now, intervalHours }: { points: PathPoint[]; now: n
   const max = Math.max(1, ...values.flatMap(p => [p.vps_to_home_mbps ?? 0, p.home_to_vps_mbps ?? 0]));
   const x = (at: number) => Math.max(0, Math.min(80, 80 * (at - now + 7 * 86_400_000) / (7 * 86_400_000)));
   return <svg className="family-sparkline" viewBox="0 0 80 26" aria-hidden>
-    {(["vps_to_home_mbps", "home_to_vps_mbps"] as const).map((key, index) => {
+    {HOME_BANDWIDTH_DIRECTIONS.map(({ field: key, tone }) => {
       let pen = false;
       const d = values.map(p => { const v = p[key]; if (v == null) { pen = false; return ""; } const op = pen ? "L" : "M"; pen = true; return `${op}${x(p.observed_at).toFixed(2)},${(24 - v / max * 22).toFixed(2)}`; }).join(" ");
-      return <g key={key} style={{ color: `var(--traffic-${index ? "down" : "up"})` }}>
+      return <g key={key} style={{ color: `var(--traffic-${tone})` }}>
         <path d={d} fill="none" stroke="currentColor" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
         {values.map((p, i) => p[key] != null && values[i - 1]?.[key] == null && values[i + 1]?.[key] == null ? <circle key={p.observed_at} cx={x(p.observed_at)} cy={24 - p[key]! / max * 22} r="1.4" fill="currentColor" /> : null)}
       </g>;
@@ -82,8 +82,9 @@ export function FamilyPathSummary({ id, density = "large" }: { id: string; densi
           {latencyText(path)}{path?.latency_status === "ok" && path.loss_percent != null && <small> · {path.loss_percent.toFixed(0)}%</small>}
         </span>
         <span className="family-speeds" title={`${t("family.direction")} · ${fullTime(path?.bandwidth_at ?? 0)}`}>
-          <span className="family-up">↑ <b>{formatMbps(path?.vps_to_home_mbps)}</b></span>
-          <span className="family-down">↓ <b>{formatMbps(path?.home_to_vps_mbps)}</b></span>
+          {HOME_BANDWIDTH_DIRECTIONS.map(({ field, tone, arrow }) =>
+            <span key={tone} className={`family-${tone}`}>{arrow} <b>{formatMbps(path?.[field])}</b></span>
+          )}
           {density === "large" && <small>Mbps</small>}
           {old && path?.bandwidth_at ? <small className="family-old">{t("family.lastSuccess")}</small> : null}
         </span>

@@ -51,7 +51,10 @@ describe("native family-path integration", () => {
     expect(container.querySelectorAll('[data-family="ipv6"]')).toHaveLength(2);
     expect(container.querySelector('[data-family="ipv6"]')?.textContent).toContain("待采集");
     expect(container.querySelector('[data-family="ipv6"] a')?.getAttribute("href")).toContain("family=ipv6");
-    expect(container.textContent).toContain("123");
+    const ipv4 = container.querySelector('[data-family="ipv4"]');
+    expect(ipv4?.querySelector(".family-down")?.textContent).toContain("↓ 123");
+    expect(ipv4?.querySelector(".family-up")?.textContent).toContain("↑ 67.9");
+    expect(ipv4?.querySelector(".family-speeds")?.getAttribute("title")).toContain("↓ 下载（VPS → Home）");
   });
   it("polls idle data at 60 seconds without reloading history, and stops when hidden", async () => {
     await mount();
