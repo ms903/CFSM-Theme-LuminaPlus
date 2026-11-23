@@ -108,3 +108,10 @@ describe("native family-path integration", () => {
     expect(points[3].status).toBe("missing"); expect(points[3].vps_to_home_mbps).toBeNull();
   });
 });
+
+it("connects consecutive daily measurements, with gaps only for missed tests", () => {
+  const day = 86_400_000;
+  const point = (observed_at: number) => ({ observed_at, status: "ok", vps_to_home_mbps: 12, home_to_vps_mbps: 10 });
+  expect(pathChartPoints([point(day), point(day * 2)], 24).map(p => p.status)).toEqual(["ok", "ok"]);
+  expect(pathChartPoints([point(day), point(day * 4)], 24).map(p => p.status)).toEqual(["ok", "missing", "ok"]);
+});

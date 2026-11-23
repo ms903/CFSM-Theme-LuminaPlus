@@ -43,8 +43,8 @@ export function FamilyTestButton({ id, family, full = false }: { id: string; fam
     {submitting ? t("family.submitting") : busy ? taskLabel(path, now) : t(full ? "family.testNow" : "family.test")}
   </button>;
 }
-function Sparkline({ points, now }: { points: PathPoint[]; now: number }) {
-  const values = pathChartPoints(points).filter(p => p.observed_at >= now - 7 * 86_400_000);
+function Sparkline({ points, now, intervalHours }: { points: PathPoint[]; now: number; intervalHours: number }) {
+  const values = pathChartPoints(points, intervalHours).filter(p => p.observed_at >= now - 7 * 86_400_000);
   const max = Math.max(1, ...values.flatMap(p => [p.vps_to_home_mbps ?? 0, p.home_to_vps_mbps ?? 0]));
   const x = (at: number) => Math.max(0, Math.min(80, 80 * (at - now + 7 * 86_400_000) / (7 * 86_400_000)));
   return <svg className="family-sparkline" viewBox="0 0 80 26" aria-hidden>
@@ -87,7 +87,7 @@ export function FamilyPathSummary({ id, density = "large" }: { id: string; densi
           {density === "large" && <small>Mbps</small>}
           {old && path?.bandwidth_at ? <small className="family-old">{t("family.lastSuccess")}</small> : null}
         </span>
-        {density === "large" && <Sparkline points={path?.sparkline ?? []} now={now} />}
+        {density === "large" && <Sparkline points={path?.sparkline ?? []} now={now} intervalHours={site.bandwidth_interval_hours} />}
       </>;
       return <div className="family-summary-row" key={family} data-family={family}>
         {interactive ? <Link to={`/server/${encodeURIComponent(id)}?section=home-path&family=${family}`} className="family-summary-link" aria-label={t("family.details", { family: familyLabel(family) })}>{data}</Link> : <span className="family-summary-link">{data}</span>}
